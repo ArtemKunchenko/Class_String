@@ -11,10 +11,75 @@
   - void SetStr(const char* str);*/
 
 #include<iostream>
+
 using namespace std;
+
+class String
+{
+public:
+	String()
+	{
+		_size = 81;
+		_str = new char[_size];
+		if (_str == NULL)
+		{
+			cout << "Error\n";
+			exit(-1);
+		}
+		_str[0]={'\0'};
+	}
+	String(int size)
+	{
+		_size = size;
+		_str = new char[_size+1];
+		if (_str == NULL)
+		{
+			cout << "Error\n";
+			exit(-1);
+		}
+		_str[0] = { '\0' };
+	}
+	String(int size, const char str[])
+	{
+		_size = size;
+		_str = new char[_size + 1];
+		if (_str == NULL)
+		{
+			cout << "Error\n";
+			exit(-1);
+		}
+		/*int i = -1;
+		do
+		{
+			i++;
+			_str[i] = str[i];
+		} while (str[i]!='\0');*/
+		for (int i = 0; i <= _size; i++)
+		{
+			if (str[i] == '\0')
+			{
+				_str[i] = str[i];
+				break;
+			}
+			_str[i] = str[i];
+		}
+	}
+	~String() { delete[]_str; }
+	void setString() { gets_s(_str,_size); }
+	void getString() { cout << _str; }
+private:
+	char *_str;
+	int _size;
+};
 
 int main()
 {
+	
+	String test;
+	test.setString();
+	test.getString();
+	cout << endl;
+	
 	system("pause");
 	return 0;
 }
