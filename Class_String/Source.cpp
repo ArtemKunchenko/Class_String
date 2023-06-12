@@ -11,75 +11,148 @@
   - void SetStr(const char* str);*/
 
 #include<iostream>
-
 using namespace std;
 
 class String
 {
 public:
-	String()
-	{
-		_size = 81;
-		_str = new char[_size];
-		if (_str == NULL)
-		{
-			cout << "Error\n";
-			exit(-1);
-		}
-		_str[0]={'\0'};
-	}
-	String(int size)
-	{
-		_size = size;
-		_str = new char[_size+1];
-		if (_str == NULL)
-		{
-			cout << "Error\n";
-			exit(-1);
-		}
-		_str[0] = { '\0' };
-	}
-	String(int size, const char str[])
-	{
-		_size = size;
-		_str = new char[_size + 1];
-		if (_str == NULL)
-		{
-			cout << "Error\n";
-			exit(-1);
-		}
-		/*int i = -1;
-		do
-		{
-			i++;
-			_str[i] = str[i];
-		} while (str[i]!='\0');*/
-		for (int i = 0; i <= _size; i++)
-		{
-			if (str[i] == '\0')
-			{
-				_str[i] = str[i];
-				break;
-			}
-			_str[i] = str[i];
-		}
-	}
-	~String() { delete[]_str; }
-	void setString() { gets_s(_str,_size); }
-	void getString() { cout << _str; }
+	String();//constructor default
+	String(int size);//constructor with param
+	String(const char str[]);//constructor with param
+	~String() { delete[]_str; }//distructor
+	void setString() { gets_s(_str, _size); }//setter
+	void getString() { cout << _str; }//getter
+	int Length();
+	char StartWith();
+	char EndsWith();
+	bool Equal(const char* str);
+	char* GetStr();
+	void SetStr(const char* str);
 private:
-	char *_str;
+	char* _str;
 	int _size;
 };
 
 int main()
 {
-	
-	String test;
-	test.setString();
+
+	String test("Hallo0");
+	/*test.setString();*/
 	test.getString();
-	cout << endl;
-	
+	cout << endl<<test.Length() << endl;
+	test.SetStr("");
+	test.getString();
+	cout << endl << test.Length() << endl;
 	system("pause");
 	return 0;
 }
+
+String::String()
+{
+	_size = 81;
+	_str = new char[_size];
+	if (_str == NULL)
+	{
+		cout << "Error\n";
+		exit(-1);
+	}
+	_str[0] = { '\0' };
+}
+
+String::String(int size)
+{
+	_size = size;
+	_str = new char[_size + 1];
+	if (_str == NULL)
+	{
+		cout << "Error\n";
+		exit(-1);
+	}
+	_str[0] = { '\0' };
+}
+
+String::String(const char str[])
+{
+	int size = 0;
+	for (int i = 0; str[i] != '\0'; i++) size++;
+	_size = size + 1;
+	_str = new char[_size];
+	if (_str == NULL)
+	{
+		cout << "Error\n";
+		exit(-1);
+	}
+	
+	for (int i = 0; i <= size; i++)
+	{
+		if (str[i] == '\0')
+		{
+			_str[i] = str[i];
+			break;
+		}
+		_str[i] = str[i];
+	}
+}
+
+int String::Length()
+{
+	int counter = 0;
+	for (int i = 0; _str[i]!='\0'; i++) counter++;
+	return counter;
+}
+
+char String::StartWith()
+{
+	return _str[0];
+}
+
+char String::EndsWith()
+{
+	char last_symbol = _str[0];
+	for (int i = 0; _str[i] != '\0'; i++) last_symbol = _str[i];
+	return last_symbol;
+}
+
+bool String::Equal(const char*str)
+{
+	int counter = 0;
+	for (int i = 0; str[i] != '\0'; i++) counter++;
+	if (Length() != counter) return false;
+	else
+	{
+		for (int i = 0; _str[i]!='\0'; i++)
+		{
+			if (_str[i] != str[i])
+			{
+				return false;
+				break;
+			}
+		}
+		return true;
+	}
+}
+
+char* String::GetStr()
+{
+	return _str;
+}
+
+void String::SetStr(const char* str)
+{
+	int size = 0;
+	for (int i = 0; str[i] != '\0'; i++) size++;
+	_size = size + 1;
+	if (_str != nullptr) delete[]_str;
+	_str = new char[_size];
+	for (int i = 0; i <= size; i++)
+	{
+		if (str[i] == '\0')
+		{
+			_str[i] = str[i];
+			break;
+		}
+		_str[i] = str[i];
+	}
+}
+
+
