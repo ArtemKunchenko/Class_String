@@ -19,7 +19,8 @@ public:
 	String();//constructor default
 	String(int size);//constructor with param
 	String(const char str[]);//constructor with param
-	~String() { delete[]_str; }//distructor
+	String(const String& initial);//copy constructor
+	~String(); //distructor
 	void setString() { gets_s(_str, _size); }//setter
 	void getString() { cout << _str; }//getter
 	int Length();
@@ -36,13 +37,15 @@ private:
 int main()
 {
 
-	String test("Hallo0");
-	/*test.setString();*/
+	/*String test("Hallo");
+	test.setString();
 	test.getString();
 	cout << endl<<test.Length() << endl;
 	test.SetStr("");
 	test.getString();
-	cout << endl << test.Length() << endl;
+	cout << endl << test.Length() << endl;*/
+	String test1;
+	String test2(test1);
 	system("pause");
 	return 0;
 }
@@ -57,6 +60,7 @@ String::String()
 		exit(-1);
 	}
 	_str[0] = { '\0' };
+	cout << "Construcror default\t" << this << endl;
 }
 
 String::String(int size)
@@ -69,6 +73,7 @@ String::String(int size)
 		exit(-1);
 	}
 	_str[0] = { '\0' };
+	cout << "Construcror with params\t" << this << endl;
 }
 
 String::String(const char str[])
@@ -92,6 +97,29 @@ String::String(const char str[])
 		}
 		_str[i] = str[i];
 	}
+	cout << "Construcror with params\t" << this << endl;
+}
+
+String::String(const String& initial)
+{
+	this->_size = initial._size;
+	this->_str = new char[initial._size];
+	if (_str == NULL)
+	{
+		cout << "Error\n";
+		exit(-1);
+	}
+	for (int i = 0; i < _size; i++)
+	{
+		this->_str[i] = initial._str[i];
+	}
+	cout << "Copy constructor\t" << this << endl;
+}
+
+String::~String()
+{
+	delete[]_str; 
+	cout << "Distructor\t" << this << endl;
 }
 
 int String::Length()
